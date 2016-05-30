@@ -9,11 +9,11 @@ RSpec::Matchers.define :have_logstash_field do |field|
 
   match do |grok_match|
     grok_captures = grok_match.captures()
-    grok_field = grok_captures.keys.grep(/.*:#{field}$/)
+    grok_field = grok_captures.keys.include?(field)
     if @value
-      grok_captures[grok_field.first].first.should == @value
+      grok_captures[field].first.should == @value
     else
-      grok_field.size.should equal 1
+      grok_field.should equal true
     end
   end
 
